@@ -58,6 +58,9 @@ public class GetRecordHandler extends VerbHandler<GetRecord> {
         if (item.isDeleted())
             header.withStatus(Header.Status.DELETED);
 
+	/* Include the raw metadata: */
+        record.withMetadata(item.getMetadata());
+        /* Bypass/disable the XOAI metadata transform functionality:
         if (!item.isDeleted()) {
             Metadata metadata = null;
             try {
@@ -87,7 +90,7 @@ public class GetRecordHandler extends VerbHandler<GetRecord> {
                 for (About about : item.getAbout())
                     record.withAbout(about);
             }
-        }
+        }*/
         return result;
     }
 

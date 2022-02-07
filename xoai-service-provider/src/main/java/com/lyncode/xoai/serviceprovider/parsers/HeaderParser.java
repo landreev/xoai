@@ -40,8 +40,12 @@ public class HeaderParser {
         header.withIdentifier(reader.getText());
         reader.next(elementName(localPart(equalTo("datestamp")))).next(text());
         header.withDatestamp(reader.get(dateParser()));
+        /* The 4.0-4.1 implementation was buggy, in that it made the 
+         * setspec tag mandatory. Commenting out the next 2 lines fixes it:
         reader.next(setSpecElement()).next(text());
         header.withSetSpec(reader.getText());
+        */
+        
         while (reader.next(endOfHeader(), setSpecElement()).current(setSpecElement()))
             header.withSetSpec(reader.next(text()).getText());
         return header;

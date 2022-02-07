@@ -43,6 +43,7 @@ import com.lyncode.xoai.serviceprovider.exceptions.OAIRequestException;
 import com.lyncode.xoai.serviceprovider.lazy.Source;
 import com.lyncode.xoai.serviceprovider.model.Context;
 import com.lyncode.xoai.serviceprovider.parsers.ListSetsParser;
+import java.io.IOException;
 
 public class ListSetsHandler implements Source<Set> {
     private Context context;
@@ -82,6 +83,24 @@ public class ListSetsHandler implements Source<Set> {
                         resumptionToken = text;
                 } else ended = true;
             } else ended = true;
+            /* This appears to be a bug in 4.1.0: the handler should be 
+             * closing the stream here, similarly to the ListIdentifierHandle, 
+             * etc. Without closing it, if there is a resumption token and 
+             * we need to make another call - you will get an exception 
+             * "Invalid use of BasicClientConnManager: connection still allocated.
+             * Make sure to release the connection before allocating another one."
+             * Also note, that I ignore the IOException if one is thrown on an 
+             * attempt to close the stream (unlike ListIdentifierHandler - which 
+             * then proceeds to throw an InvalidOAIResponse). If there is 
+             * something seriously bad with the connection, to the point that it
+             * prevents us from making the next call, it will surely result in 
+             * an exception then. -- L.A. May 2016.
+            */
+            try {
+                stream.close();
+            } catch (IOException ioex) {
+                // ignore!
+            }
             return sets;
         } catch (XmlReaderException e) {
             throw new InvalidOAIResponse(e);

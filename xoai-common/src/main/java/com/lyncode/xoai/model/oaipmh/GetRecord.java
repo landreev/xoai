@@ -23,6 +23,13 @@ public class GetRecord implements Verb {
         }
     }
 
+    /* Not to be confused with the similarly-named constructor, this
+       method exposes the "private final Record record" to other parts
+       of the OAI framework: */ 
+    public Record getRecord() {
+        return record;
+    }
+    
     @Override
     public Type getType() {
         return Type.GetRecord;

@@ -51,8 +51,8 @@ public class ListIdentifiersHandler extends VerbHandler<ListIdentifiers> {
                 listItemIdentifiersResult = itemRepositoryHelper.getItemIdentifiers(getContext(), offset, length,
                         parameters.getMetadataPrefix());
         } else {
-            if (!getRepository().getSetRepository().exists(parameters.getSet()) && !getContext().hasSet(parameters.getSet()))
-                throw new NoMatchesException();
+            /*if (!getRepository().getSetRepository().exists(parameters.getSet()) && !getContext().hasSet(parameters.getSet()))
+	      throw new NoMatchesException();*/
 
             if (parameters.hasFrom() && !parameters.hasUntil())
                 listItemIdentifiersResult = itemRepositoryHelper.getItemIdentifiers(getContext(), offset, length,
