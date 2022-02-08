@@ -3,7 +3,7 @@
     <parent>
         <artifactId>xoai</artifactId>
         <groupId>com.lyncode</groupId>
-        <version>4.1.0-header-patch</version>
+        <version>4.1.0-dataverse-fork</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
